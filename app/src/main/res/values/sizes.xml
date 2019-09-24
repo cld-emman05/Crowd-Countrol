@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="head">36dp</dimen>
+    <dimen name="subhead">18dp</dimen>
+
+    <dimen name="btn_margin">10dp</dimen>
+</resources>

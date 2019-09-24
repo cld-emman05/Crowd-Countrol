@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Crowd Countrol</string>
     <string name="title_activity_maps">Crowd Countrol</string>
+
+    <!-- for Buttons -->
+    <string name="passenger_btn">I am a commuter</string>
+    <string name="register_btn">Register</string>
+    <string name="login_btn">Login</string>
+
+    <!-- for Titles -->
+    <string name="login_title">Login</string>
 </resources>
