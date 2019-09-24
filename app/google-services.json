@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "371677085774",
+    "firebase_url": "https://crowd-countrol.firebaseio.com",
+    "project_id": "crowd-countrol",
+    "storage_bucket": "crowd-countrol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371677085774:android:36acbae2e6c094687f031f",
+        "android_client_info": {
+          "package_name": "com.example.crowdcountrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371677085774-miihkckn3r8nnllo64e990ku9jmlf2mr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.crowdcountrol",
+            "certificate_hash": "76c479ca4f79526e8f409c2f4601d25f0a2f7425"
+          }
+        },
+        {
+          "client_id": "371677085774-k5c24jp9djded1mg0qhiak82u7ab59dt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvgsOFF4K89yccLBAuYZlyg6Ils7wcCUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371677085774-k5c24jp9djded1mg0qhiak82u7ab59dt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
