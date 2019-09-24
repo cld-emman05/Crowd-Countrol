@@ -11,6 +11,8 @@ public class CommuterLoginActivity extends AppCompatActivity {
     private EditText email, password;
     private Button btn_login, btn_register;
 
+    private FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,5 +20,8 @@ public class CommuterLoginActivity extends AppCompatActivity {
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+
+        btn_login = (Button) findViewById(R.id.login_btn);
+        btn_register = (Button) findViewById(R.id.register_btn);
     }
 }
