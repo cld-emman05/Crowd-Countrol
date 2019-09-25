@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(2500));
     }
 
     /* @Override
