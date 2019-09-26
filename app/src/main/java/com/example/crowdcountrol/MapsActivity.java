@@ -2,14 +2,13 @@ package com.example.crowdcountrol;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,8 +18,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -32,6 +35,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location lastLoc;
     LocationRequest reqLoc;
 
+    private Button btn_logout;
+    private Boolean isLoggingOut = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Logout
+        btn_logout = (Button) findViewById(R.id.logout_btn);
+        btn_logout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                isLoggingOut = true;
+
+                disconnectPass();
+
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MapsActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+        });
     }
 
 
@@ -65,6 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         buildGoogleApiClient();
         mMap.setMyLocationEnabled(true);
+
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -83,7 +108,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(25));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(28));
+
+        mMap.addMarker(new MarkerOptions().position(latlng).title("You are here!")
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_star)));
     }
 
     /* @Override
@@ -104,8 +132,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         reqLoc = new LocationRequest();
-        reqLoc.setInterval(1000);
-        reqLoc.setFastestInterval(1000);
+        reqLoc.setInterval(500);
+        reqLoc.setFastestInterval(500);
         reqLoc.setPriority(reqLoc.PRIORITY_HIGH_ACCURACY);
 
         LocationServices.FusedLocationApi.requestLocationUpdates(client, reqLoc, this);
@@ -119,5 +147,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void disconnectPass(){
+        LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("passengerWaiting");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    protected void onStop(){
+        super.onStop();
+
+        if(!isLoggingOut){
+            disconnectPass();
+        }
     }
 }
